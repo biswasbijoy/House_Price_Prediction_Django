@@ -1,12 +1,15 @@
 from django.shortcuts import render
 
 
-def home(request):
-    return render(request, 'home.html')
+def start(request):
+    return render(request, 'starting.html')
 
 
-def landing_page(request):
-    return render(request, 'landing_page.html')
+def auth(request):
+    if request.user.is_authenticated:
+        return render(request, 'home.html')
+    else:
+        return render(request, 'auth.html')
 
 
 def signup(request):
