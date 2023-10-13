@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Get Started!</title>
+{% extends 'base.html' %}
+{% block title %} Get Started! {% endblock %}
+{% block content %}
     <style>
         body {
             background-color: #080710;
@@ -31,19 +29,16 @@
 
 
     </style>
-</head>
-<body>
-    <h1 style = 'color: #ffffff; text-align: center'>You have to Log in First!</h1>
-    <h2 style = 'color: #ffffff; position: absolute; left: 20%; top: 20%'>Already Have an Account?</h2>
+    <h2 style = 'color: #ffffff; text-align: center'>You have to Log in First!</h2>
+    <h3 style = 'color: #ffffff; position: absolute; left: 15%; top: 20%'>Already Have an Account?</h3>
     <form action="login">
-        <input type="submit" value="Login" style="position: absolute; left: 25%; top: 30%">
+        <input type="submit" value="Login" style="position: absolute; left: 23%; top: 30%">
     </form>
 
 
-    <h2 style = 'color: #ffffff; position: absolute; left: 60%; top: 20%'>New User? You Have to Create an Account.</h2>
+    <h3 style = 'color: #ffffff; position: absolute; left: 60%; top: 20%'>New User? You Have to Create an Account.</h3>
     <form action="signup">
         <input type="submit" value="SignUp" style="position: absolute; left: 73%; top: 30%">
     </form>
     <div class="vl"></div>
-</body>
-</html>
+{% endblock %}
