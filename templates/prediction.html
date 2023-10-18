@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% block title %} Prediction {% endblock %}
+{% block content %}
+    <style>
+        body {
+            background-color: #080710;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #2b2b2b;
+            color: white;
+        }
+
+        .location-dropdown {
+            position: relative;
+        }
+
+        .location-dropdown select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            width: 100%;
+        }
+
+        .location-dropdown::after {
+            content: '\25BC';
+            position: absolute;
+            top: 40%;
+            right: 10px;
+            color: white;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+    <div class="container">
+        <h1 style="color: aqua">Calculate the price of a House according to requirements!</h1>
+        <form action="predict">
+            <div class="form-group">
+                <label for="area">Area (Square Feet)</label>
+                <input type="number" id="area" required name="area">
+            </div>
+            <div class="form-group">
+                <label for="bedroom">Bedroom</label>
+                <input type="text" id="bedroom" required name="bedroom">
+            </div>
+            <div class="form-group">
+                <label for="bathroom">Bathroom</label>
+                <input type="text" id="bathroom" required name="bathroom">
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <div class="location-dropdown">
+                    <select id="location" required name="location">
+                    <option value="" disabled selected>Select a location</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <input type="submit" value="Predict">
+            </div>
+        </form>
+        <div class="row">
+            <h2>Estimated Price for {{ area }}: {{ ans }} Lac Rupees</h2>
+        </div>
+    </div>
+
+
+    <script>
+        // Get the select element
+        var areaSelect = document.getElementById("location");
+
+        // Fetch JSON data from the URL
+        fetch("http://127.0.0.1:8000/ehehbouy")
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                // Populate the dropdown options
+                data.area_names.forEach(function (areaName) {
+                    var option = document.createElement("option");
+                    option.text = areaName;
+                    option.value = areaName;
+                    areaSelect.appendChild(option);
+                });
+            })
+            .catch(function(error) {
+                console.error("Error fetching data: " + error);
+            });
+    </script>
+
+{% endblock %}
