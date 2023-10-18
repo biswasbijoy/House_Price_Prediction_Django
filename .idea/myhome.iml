@@ -27,7 +27,7 @@
     <option name="TEMPLATE_FOLDERS">
       <list>
         <option value="$MODULE_DIR$/templates" />
-        <option value="$MODULE_DIR$/predict/templates/prediction" />
+        <option value="$MODULE_DIR$/predict/saved_model" />
       </list>
     </option>
   </component>
