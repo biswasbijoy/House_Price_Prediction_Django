@@ -22,8 +22,8 @@ from predict import urls as predict_urls
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.start, name='start'),
-    path('started/', views.auth, name='auth'),
-    path('started/signup/', views.signup, name='signup'),
-    path('started/login/', views.login, name='login'),
+    path('home', views.auth, name='auth'),
+    path('signup', views.signup, name='signup'),
+    path('login', views.login, name='login'),
     path('', include(predict_urls, namespace='predict')),
 ]
