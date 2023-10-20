@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %} Browse Posts! {% endblock %}
+{% block content %}
+     <style>
+        body {
+            background-color: #080710;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #ffffff;
+        }
+    </style>
+
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 5%">
+        <div>
+            <h1>{{ post.title }}</h1>
+            <small>{{ post.author.first_name }} {{ post.author.last_name }}</small>
+            <br>
+            <small>Date: {{ post.published }}</small>
+        </div>
+        <div>
+            <button type="button" class="btn btn-info" style="margin-left: -150%"><a href="{% url 'posts:update_post' post.pk %}" style="color: white">Edit</a></button>
+            &nbsp;
+
+            <button type="button" class="btn btn-danger"><a href="{% url 'posts:delete_post' post.pk %}" style="color: white">Delete</a></button>
+        </div>
+    </div>
+    <hr style="background-color: white">
+    <br>
+    {{ post.description }}
+
+{% endblock %}
