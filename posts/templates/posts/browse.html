@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %} Browse Posts! {% endblock %}
+{% block content %}
+    <style>
+        body {
+            background-color: #080710;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .card-deck {
+            display: flex;
+            flex-direction: column;
+        }
+        .card {
+            width: 50%; /* Set the desired width */
+            height: 20%; /* Set the desired height */
+            margin: 10px; /* Adjust margin as needed */
+        }
+        .card-body {
+            padding: 5px;
+            background-color: #c4c4c4;
+            height: 100%; /* Fill the available height */
+        }
+        .card-title {
+            margin-bottom: .75rem;
+        }
+        .card-text:last-child {
+            margin-bottom: 0;
+        }
+        .top-button {
+            position: fixed;
+            top: 10%;
+            left: 8%;
+            z-index: 1;
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+
+    <button class="top-button" onclick="redirectToContent()">Add new Post</button>
+    <div class="container">
+        <br>
+        <h2 style="color: white; margin-top: 10%">All Posts</h2><br>
+        <div class="card-deck">
+            {% for post in object_list %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'posts:content' post.pk %}">{{ post.title }}</a></h5>
+                    <p class="card-text">Date: {{ post.published }}</p>
+                    <p class="card-text">Author: {{ post.author.first_name }} {{ post.author.last_name }}</p>
+                    <p class="card-text">Description: {{ post.description }}</p>
+                    <button type="button" class="btn btn-info"><a href = "{% url 'posts:update_post' post.pk %}" style="color: white">Edit</a></button>
+                    <button type="button" class="btn btn-danger"><a href = "{% url 'posts:delete_post' post.pk %}" style="color: white">Delete</a></button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script>
+        function redirectToContent() {
+            window.location.href = '{% url 'posts:new_post'%}'; // Change 'browse.html' to the actual URL you want to redirect to
+        }
+    </script>
+{% endblock %}
