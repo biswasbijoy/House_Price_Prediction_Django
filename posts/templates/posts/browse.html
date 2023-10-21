@@ -14,14 +14,14 @@
             flex-direction: column;
         }
         .card {
-            width: 50%; /* Set the desired width */
-            height: 20%; /* Set the desired height */
-            margin: 10px; /* Adjust margin as needed */
+            width: 50%;
+            height: 20%;
+            margin: 10px;
         }
         .card-body {
             padding: 5px;
             background-color: #c4c4c4;
-            height: 100%; /* Fill the available height */
+            height: 100%;
         }
         .card-title {
             margin-bottom: .75rem;
@@ -45,6 +45,23 @@
 
     <button class="top-button" onclick="redirectToContent()">Add new Post</button>
     <div class="container">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="categoryFilterButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 5%; position: fixed; margin-left: 67%">
+            Filter by Category
+        </button>
+        <div class="dropdown-menu" aria-labelledby="categoryFilterButton">
+            <form method="get" action="{% url 'posts:filter'%}">
+                {% csrf_token %}
+                {% for choice in category_choices %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="{{ choice.0 }}" name="categories" value="{{ choice.0 }}">
+                        <label class="form-check-label" for="{{ choice.0 }}">
+                            {{ choice.1 }}
+                        </label>
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary">Apply Filter</button>
+            </form>
+        </div>
         <br>
         <h2 style="color: white; margin-top: 10%">All Posts</h2><br>
         <div class="card-deck">
@@ -54,9 +71,12 @@
                     <h5 class="card-title"><a href="{% url 'posts:content' post.pk %}">{{ post.title }}</a></h5>
                     <p class="card-text">Date: {{ post.published }}</p>
                     <p class="card-text">Author: {{ post.author.first_name }} {{ post.author.last_name }}</p>
-                    <p class="card-text">Description: {{ post.description }}</p>
-                    <button type="button" class="btn btn-info"><a href = "{% url 'posts:update_post' post.pk %}" style="color: white">Edit</a></button>
+                    <p class="card-text">Description: {{ post.description|slice:"80"|safe }}...</p>
+                    {% if user.id == post.author.id %}
+                        <button type="button" class="btn btn-info"><a href = "{% url 'posts:update_post' post.pk %}" style="color: white">Edit</a></button>
                     <button type="button" class="btn btn-danger"><a href = "{% url 'posts:delete_post' post.pk %}" style="color: white">Delete</a></button>
+
+                    {% endif %}
                 </div>
             </div>
             {% endfor %}
@@ -64,7 +84,7 @@
     </div>
     <script>
         function redirectToContent() {
-            window.location.href = '{% url 'posts:new_post'%}'; // Change 'browse.html' to the actual URL you want to redirect to
+            window.location.href = '{% url 'posts:new_post' %}';
         }
     </script>
 {% endblock %}
