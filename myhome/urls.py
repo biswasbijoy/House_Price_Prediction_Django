@@ -19,13 +19,15 @@ from django.urls import path, include
 from . import views
 from predict import urls as predict_urls
 from posts import urls as posts_url
+from homeauth import urls as homeauth_urls
 
 app_name = 'myhome'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.start, name='start'),
-    path('signup', views.signup, name='signup'),
-    path('login', views.login, name='login'),
+    # path('home', views.home, name='home'),
+    # path('login', views.login, name='login'),
     path('', include(predict_urls, namespace='predict')),
     path('', include(posts_url, namespace='posts')),
+    path('', include(homeauth_urls, namespace='homeauth')),
 ]
