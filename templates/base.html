@@ -12,8 +12,8 @@
             padding-left: 0;
             padding-right: 0;
         }
-        .navbar-nav .nav-item .nav-link {
-            /* Apply your common style here */
+        .navbar a:last-child {
+            float: right;
         }
     </style>
     <title>{% block title %}{% endblock %}</title>
@@ -21,24 +21,41 @@
   <body>
     <div class="container-fluid no-padding">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-{#            <a class="navbar-brand" href="#">Home</a>#}
-{#            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">#}
-{#              <span class="navbar-toggler-icon"></span>#}
-{#            </button>#}
             <div class="collapse navbar-collapse" id="navbarNav">
               <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <a class="nav-link" href="{% url 'posts:home' %}">Home</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="{% url 'posts:browse' %}">Browse</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="prediction.html">Predict Price</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#">About Us</a>
-                  </li>
+                  {% if user.is_authenticated %}
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'posts:home' %}">Home</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="{% url 'posts:browse' %}">Browse</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="prediction.html">Predict Price</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="#">About Us</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="{% url 'homeauth:logout' %}">Logout</a>
+                      </li>
+                  {% else  %}
+                      <li class="nav-item">
+                        <a class="nav-link" href="{% url 'posts:home' %}">Home</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="{% url 'posts:browse' %}">Browse</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="prediction.html">Predict Price</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="#">About Us</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="{% url 'homeauth:login' %}">Login</a>
+                      </li>
+                  {% endif %}
               </ul>
             </div>
           </nav>
