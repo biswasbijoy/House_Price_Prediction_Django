@@ -10,7 +10,6 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.TextField()
     published = models.DateTimeField(default=timezone.now)
-
     category = models.ManyToManyField(PostCategory, related_name='categories', blank=True, null=True)
 
     def __str__(self):
