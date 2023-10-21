@@ -22,4 +22,8 @@
             <button class="btn btn-secondary">Create Post</button>
         </form>
     </div>
+    <script>
+        let name = "{{ user.id }}";
+        document.getElementById("author").value = name;
+    </script>
 {% endblock %}
