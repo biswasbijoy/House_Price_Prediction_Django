@@ -41,27 +41,62 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+        .filter-button {
+            position: fixed;
+            top: 10%;
+            left: 30%;
+            z-index: 1;
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 
     <button class="top-button" onclick="redirectToContent()">Add new Post</button>
-    <div class="container">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="categoryFilterButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 5%; position: fixed; margin-left: 67%">
-            Filter by Category
-        </button>
-        <div class="dropdown-menu" aria-labelledby="categoryFilterButton">
+    <button class="filter-button" id="categoryFilterButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Filter by Category <i class="fas fa-filter"></i>
+    </button>
+    <div class="dropdown-menu" aria-labelledby="categoryFilterButton">
             <form method="get" action="{% url 'posts:filter'%}">
                 {% csrf_token %}
-                {% for choice in category_choices %}
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="{{ choice.0 }}" name="categories" value="{{ choice.0 }}">
-                        <label class="form-check-label" for="{{ choice.0 }}">
-                            {{ choice.1 }}
+{#                {% for choice in category_choices %}#}
+{#                    <div class="form-check">#}
+{#                        <input class="form-check-input" type="checkbox" id="{{ choice.0 }}" name="categories" value="{{ choice.0 }}">#}
+{#                        <label class="form-check-label" for="{{ choice.0 }}">#}
+{#                            {{ choice.1 }}#}
+{#                        </label>#}
+{#                    </div>#}
+{#                {% endfor %}#}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="1" name="categories" value="1" {% if '1' in selected_categories %}checked{% endif %}>
+                        <label class="form-check-label" for="1">
+                            Sell
                         </label>
-                    </div>
-                {% endfor %}
-                <button type="submit" class="btn btn-primary">Apply Filter</button>
+                    <p></p>
+                    <input class="form-check-input" type="checkbox" id="2" name="categories" value="2" {% if '2' in selected_categories %}checked{% endif %}>
+                        <label class="form-check-label" for="2">
+                            Buy
+                        </label>
+                    <p></p>
+                    <input class="form-check-input" type="checkbox" id="3" name="categories" value="3" {% if '3' in selected_categories %}checked{% endif %}>
+                        <label class="form-check-label" for="3">
+                            Information
+                        </label>
+                </div>
+                <button type="submit" class="btn btn-info">Apply Filter</button>
+{#                button for clear filter#}
+                <button type="button" class="btn btn-danger"><a href = "{% url 'posts:browse' %}" style="color: white">Clear Filter</a></button>
             </form>
         </div>
+    <div class="container my-md-5">
+{#        <button class="btn btn-secondary dropdown-toggle" type="button" id="categoryFilterButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 5%; position: fixed; margin-left: 67%">#}
+{#            Filter by Category#}
+{#        </button>#}
+
         <br>
         <h2 style="color: white; margin-top: 10%">All Posts</h2><br>
         <div class="card-deck">
@@ -71,10 +106,10 @@
                     <h5 class="card-title"><a href="{% url 'posts:content' post.pk %}">{{ post.title }}</a></h5>
                     <p class="card-text">Date: {{ post.published }}</p>
                     <p class="card-text">Author: {{ post.author.first_name }} {{ post.author.last_name }}</p>
-                    <p class="card-text">Description: {{ post.description|slice:"80"|safe }}...</p>
+                    <p class="card-text">Description: {{ post.description|slice:"50"|safe }}...</p>
                     {% if user.id == post.author.id %}
                         <button type="button" class="btn btn-info"><a href = "{% url 'posts:update_post' post.pk %}" style="color: white">Edit</a></button>
-                    <button type="button" class="btn btn-danger"><a href = "{% url 'posts:delete_post' post.pk %}" style="color: white">Delete</a></button>
+                        <button type="button" class="btn btn-danger"><a href = "{% url 'posts:delete_post' post.pk %}" style="color: white">Delete</a></button>
 
                     {% endif %}
                 </div>

@@ -11,26 +11,56 @@
             color: #ffffff;
         }
     </style>
+    <div class = 'container m-auto'>
 
-    <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 5%">
-        <div>
-            <h1>{{ post.title }}</h1>
-            <small>{{ post.author.first_name }} {{ post.author.last_name }}</small>
-            <br>
-            <small>Date: {{ post.published }}</small>
-        </div>
-        {% if user.id == post.author.id %}
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 5%">
             <div>
-                <button type="button" class="btn btn-info" style="margin-left: -150%"><a href="{% url 'posts:update_post' post.pk %}" style="color: white">Edit</a></button>
-                &nbsp;
-
-                <button type="button" class="btn btn-danger"><a href="{% url 'posts:delete_post' post.pk %}" style="color: white">Delete</a></button>
+                <h1>{{ post.title }}</h1>
+                <small>{{ post.author.first_name }} {{ post.author.last_name }}</small>
+                <br>
+                <small>Date: {{ post.published }}</small>
             </div>
+            {% if user.id == post.author.id %}
+                <div>
+                    <button type="button" class="btn btn-info" style="margin-left: -150%"><a href="{% url 'posts:update_post' post.pk %}" style="color: white">Edit</a></button>
+                    &nbsp;
+
+                    <button type="button" class="btn btn-danger"><a href="{% url 'posts:delete_post' post.pk %}" style="color: white">Delete</a></button>
+                </div>
+            {% endif %}
+        </div>
+        <hr style="background-color: white">
+
+        <br>
+        {{ post.description | safe}}
+        <br>
+        {% if post.image %}
+            <img src="{{ post.image.url }}" alt="invalid" width="640" height="416">
         {% endif %}
+        <hr style="background-color: white">
     </div>
-    <hr style="background-color: white">
 
-    <br>
-    {{ post.description }}
+    <div class = 'container m-auto'>
+        <h4>Comments</h4>
+        <hr style="background-color: white; width: 11%; margin-left: 0">
+        {% if not post.comments.all %}
+            No Comments Yet... <a href="{% url 'posts:comment' post.pk %}">Add One</a>
+        {% else %}
+            <a href="{% url 'posts:comment' post.pk %}">Add Comment</a>
+            <br/><br/>
+            {% for comment in post.comments.all %}
+                {% if user.id == comment.owner.id%}
+                    <strong>{{ comment.owner.first_name }} {{ comment.owner.last_name }} - {{ comment.date_added }}</strong><a href="{% url 'posts:deleteComment' post.pk %}" style="color: blue">Delete</a>
+                {% else %}
+                    <strong>{{ comment.owner.first_name }} {{ comment.owner.last_name }} - {{ comment.date_added }}</strong>
+                {% endif %}
+                <br/>
+                {{ comment.comment }}
+                <br/><br/>
+            {% endfor %}
 
+        {% endif %}
+        <br>
+         <br>
+    </div>
 {% endblock %}

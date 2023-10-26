@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %} Create your new post. {% endblock %}
+{% block title %} Add a Comment {% endblock %}
 {% block content %}
     <style>
         body {
@@ -14,17 +14,15 @@
 
 
     <div class = 'container'>
-        <h1> Create your new post. </h1>
+        <h1>Add Comment...</h1>
+    <br/><br/>
 
-        <form method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+        <form method="POST">
             {% csrf_token %}
-            {{ form.media}}
             {{ form.as_p }}
-            <button class="btn btn-secondary">Create Post</button>
+            <button class="btn btn-success">Comment</button>
         </form>
     </div>
-    <script>
-        let name = "{{ user.id }}";
-        document.getElementById("author").value = name;
-    </script>
+    </div>
 {% endblock %}

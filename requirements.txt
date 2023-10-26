@@ -6,3 +6,4 @@ matplotlib==3.8.0
 django-model-utils==4.3.1
 django-ckeditor==6.7.0
 pytz~=2023.3.post1
+Pillow==10.1.0

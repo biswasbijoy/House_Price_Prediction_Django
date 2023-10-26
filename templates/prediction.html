@@ -68,8 +68,8 @@
             cursor: pointer;
         }
     </style>
-    <div class="container">
-        <h1 style="color: aqua; margin-top: 7%">Calculate the price of a House according to requirements!</h1>
+    <div class="container my-5">
+        <h2 style="color: aqua;">Calculate the price of a House according to requirements!</h2>
         <form action="predict">
             {% csrf_token %}
             <div class="form-group">
@@ -92,11 +92,11 @@
                     </select>
                 </div>
             </div>
-            <div class="row">
-                <input type="submit" value="Predict">
+            <div class="col" style="margin-left: -2%">
+                <button type="submit" class="btn btn-success">Predict</button>
             </div>
         </form>
-        <div class="row">
+        <div class="">
             <h2>Estimated Price for {{ area }}: {{ ans }} Lac Rupees</h2>
         </div>
     </div>
