@@ -24,11 +24,11 @@ from homeauth import urls as homeauth_urls
 
 app_name = 'myhome'
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    # path('', views.start, name='start'),
-    # path('home', views.home, name='home'),
-    # path('login', views.login, name='login'),
-    path('', include(predict_urls, namespace='predict')),
-    path('', include(posts_url, namespace='posts')),
-    path('', include(homeauth_urls, namespace='homeauth')),
-] + static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                  path('admin/', admin.site.urls),
+                  # path('', views.start, name='start'),
+                  # path('home', views.home, name='home'),
+                  # path('login', views.login, name='login'),
+                  path('', include(predict_urls, namespace='predict')),
+                  path('', include(posts_url, namespace='posts')),
+                  path('', include(homeauth_urls, namespace='homeauth')),
+              ] + static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
