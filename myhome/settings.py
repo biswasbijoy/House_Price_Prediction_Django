@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'predict.apps.PredictConfig',
     'posts.apps.PostsConfig',
     'ckeditor',
+    'chat.apps.ChatConfig',
 ]
 
 MIDDLEWARE = [

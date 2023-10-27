@@ -21,6 +21,7 @@ from django.conf.urls import static
 from predict import urls as predict_urls
 from posts import urls as posts_url
 from homeauth import urls as homeauth_urls
+from chat import urls as chat_urls
 
 app_name = 'myhome'
 urlpatterns = [
@@ -31,4 +32,5 @@ urlpatterns = [
                   path('', include(predict_urls, namespace='predict')),
                   path('', include(posts_url, namespace='posts')),
                   path('', include(homeauth_urls, namespace='homeauth')),
+                  path('', include(chat_urls, namespace='chats')),
               ] + static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
