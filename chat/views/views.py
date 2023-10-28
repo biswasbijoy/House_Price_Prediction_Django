@@ -51,6 +51,6 @@ def chatpage(request):
     combined_user_ids = set(receiver_ids_sent) | set(sender_ids_received)
 
     # Retrieve user IDs and usernames associated with combined IDs
-    users_info = User.objects.filter(id__in=combined_user_ids).values('id', 'username')
+    users_info = User.objects.filter(id__in=combined_user_ids).values('id', 'username', 'first_name', 'last_name')
 
     return render(request, 'chat/chatpage.html', {'users_info': users_info, 'user': current_user})
