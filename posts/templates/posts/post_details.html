@@ -17,7 +17,11 @@
             <div>
                 <h1>{{ post.title }}</h1>
                 <small>{{ post.author.first_name }} {{ post.author.last_name }}</small>
+                {% if post.author.id == user.id %}
+                <h5></h5>
+                {% else %}
                 <h5><a href="{% url 'chats:chatroom' post.author.id %}">Chat with author!</a> </h5>
+                {% endif %}
                 <br>
                 <small>Date: {{ post.published }}</small>
             </div>
