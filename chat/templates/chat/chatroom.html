@@ -1,122 +1,121 @@
 {% extends 'base.html' %}
 {% block title %} Chats {% endblock %}
 {% block content %}
-     <style>
-        body {
-            background-color: #080710;
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #ffffff;
-        }
-    </style>
-    <style>
-        * {
-            box-sizing: border-box;
-            padding: 0;
-            margin: 0;
-        }
+<style>
+    body {
+        background-color: #080710;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: #ffffff;
+    }
+</style>
+<style>
+    * {
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+    }
 
-        body {
-            display: flex;
-            height: 100vh;
-            background: #666;
-            flex-direction: column;
-        }
+    body {
+        display: flex;
+        height: 100vh;
+        background: #666;
+        flex-direction: column;
+    }
 
-        .header {
-            padding: 10px 5%;
-            background: #444;
-            color: #888;
-        }
+    .header {
+        padding: 10px 5%;
+        background: #444;
+        color: #888;
+    }
 
-        .messages-area {
-            height: 100%;
-            min-height: 70vh;
-            overflow-y: auto;
-            background: #555;
-            color: #999;
-            padding: 4% 4% 10px;
-        }
+    .messages-area {
+        height: 70vh; /* Fixed height for the messages area */
+        overflow-y: auto;
+        background: #555;
+        color: #999;
+        padding: 4% 4% 10px;
+    }
 
-        .input-area {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-        }
+    .input-area {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
 
-        #message-input {
-            padding: 10px;
-            width: 100%;
-            height: 50%;
-        }
+    #message-input {
+        padding: 10px;
+        width: 100%;
+        height: 50%;
+    }
 
-        #send-btn {
-            padding: 0 6%;
-            background: gold;
-            {#height: 100%;#}
-        }
-        .message.left{
-            text-align: left;
-            color: #aaa;
-        }
-        .message.right {
-            text-align: right;
-            color: #ccc;
-        }
-        .message .content{
-            background: #444;
-            padding: 5px 10px;
-            border-radius: 10px;
-            max-width: 80%;
-            display: inline-block;
-        }
+    #send-btn {
+        padding: 0 6%;
+        background: gold;
+    }
 
-    </style>
+    .message.left {
+        text-align: left;
+        color: #aaa;
+    }
 
-    <div class="container my-md-6" style="margin-top: 5%; margin-left: 23%">
-        <div class="col-md-6">
+    .message.right {
+        text-align: right;
+        color: #ccc;
+    }
 
-        </div>
-        <div class="col-md-8">
-            <div class="header">{{ other_user.username }}</div>
-    <div class="messages-area">
-        {% for message in messages %}
-        <div class="message
-        {% if message.sender == request.user %}right{% else %}left{% endif %}
-        ">
-            <div class="sent-by">{{ message.sender.username }}</div>
-            <div class="content">{{ message.message }}</div>
-        </div>
-        {% endfor %}
+    .message .content {
+        background: #444;
+        padding: 5px 10px;
+        border-radius: 10px;
+        max-width: 80%;
+        display: inline-block;
+    }
+</style>
+
+<div class="container my-md-6" style="margin-top: 5%; margin-left: 21%; position: fixed">
+    <div class="col-md-6">
     </div>
-    <div class="input-area">
-        <input type="text" id="message-input">
-        <button id="send-btn">Send</button>
-    </div>
+    <div class="col-md-8">
+        <div class="header">{{ other_user.username }}</div>
+        <div class="messages-area" id="messages-area">
+            {% for message in messages %}
+            <div class="message {% if message.sender == request.user %}right{% else %}left{% endif %}">
+                <div class="sent-by">{{ message.sender.username }}</div>
+                <div class="content">{{ message.message }}</div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="input-area">
+            <input type="text" id="message-input">
+            <button id="send-btn">Send</button>
         </div>
     </div>
+</div>
+
 <script>
     let message_send_btn = document.getElementById("send-btn");
     let message_input = document.getElementById("message-input");
+    let messagesContainer = document.getElementById("messages-area");
+
     function send_message() {
         let message = message_input.value;
         if (message === "") {
             return;
         }
         message_input.value = "";
-        fetch("{% url 'chats:chatroom-ajax' other_user.id %}",
-            {
-                method: "POST",
-                credentials: 'same-origin',
-                headers: {
-                    "Content-Type": 'application/json',
-                    'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: JSON.stringify(message)
-            }
-        ).then(e => e.json()).then(messages => {
+        // Send the message and update the chat
+        fetch("{% url 'chats:chatroom-ajax' other_user.id %}", {
+            method: "POST",
+            credentials: 'same-origin',
+            headers: {
+                "Content-Type": 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify(message)
+        }).then(e => e.json()).then(messages => {
             for (message of messages) {
                 construct_message(message);
             }
@@ -124,31 +123,33 @@
     }
 
     function load_messages() {
+        // Load initial messages and update the chat
         fetch("{% url 'chats:chatroom-ajax' other_user.id %}")
             .then(e => e.json())
             .then(messages => {
-                console.log(messages)
                 for (message of messages) {
                     construct_message(message);
                 }
-            })
+            });
     }
 
-    function construct_message(message){
-        let messages_container = document.querySelector(".messages-area");
-        let class_name = "left"
-        if (message.sent){
-            class_name = "right"
+    function construct_message(message) {
+        let class_name = "left";
+        if (message.sent) {
+            class_name = "right";
         }
         let div = document.createElement("div");
         div.classList.add("message", class_name);
         div.innerHTML = `
-        <div class="sent-by">${ message.sender }</div>
-            <div class="content">${ message.message }</div>
-        `
-        messages_container.appendChild(div);
-        div.scrollIntoView()
+        <div class="sent-by">${message.sender}</div>
+        <div class="content">${message.message}</div>
+        `;
+        messagesContainer.appendChild(div);
+
+        // Scroll to the latest message
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
     }
+
     message_send_btn.addEventListener('click', send_message);
     setInterval(load_messages, 2000);
 </script>
