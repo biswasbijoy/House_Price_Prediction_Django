@@ -19,7 +19,7 @@ def auth(request):
         return False
 
 
-@login_required(login_url='/login')
+# @login_required(login_url='/login')
 def home_auth(request):
     return render(request, 'starting.html')
 
