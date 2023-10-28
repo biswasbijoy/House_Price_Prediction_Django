@@ -10,25 +10,16 @@
         background-attachment: fixed;
         color: #ffffff;
     }
-</style>
-<style>
+
     * {
         box-sizing: border-box;
         padding: 0;
         margin: 0;
     }
-
-    body {
-        display: flex;
-        height: 100vh;
-        background: #666;
-        flex-direction: column;
-    }
-
     .header {
         padding: 10px 5%;
         background: #444;
-        color: #888;
+        color: #ffffff;
     }
 
     .messages-area {
@@ -52,8 +43,9 @@
     }
 
     #send-btn {
-        padding: 0 6%;
+        padding: 0 5%;
         background: gold;
+        margin-right: -0.4%;
     }
 
     .message.left {
@@ -79,11 +71,11 @@
     <div class="col-md-6">
     </div>
     <div class="col-md-8">
-        <div class="header">{{ other_user.username }}</div>
+        <div class="header">{{ other_user.first_name }} {{ other_user.last_name }}</div>
         <div class="messages-area" id="messages-area">
             {% for message in messages %}
             <div class="message {% if message.sender == request.user %}right{% else %}left{% endif %}">
-                <div class="sent-by">{{ message.sender.username }}</div>
+                <div class="sent-by">{% if message.sender == request.user %}Me{% else %}{{ message.sender.first_name}}{% endif %}</div>
                 <div class="content">{{ message.message }}</div>
             </div>
             {% endfor %}
@@ -141,7 +133,7 @@
         let div = document.createElement("div");
         div.classList.add("message", class_name);
         div.innerHTML = `
-        <div class="sent-by">${message.sender}</div>
+        <div class="sent-by">Me</div>
         <div class="content">${message.message}</div>
         `;
         messagesContainer.appendChild(div);
