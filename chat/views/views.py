@@ -13,7 +13,16 @@ def chatroom(request, pk: int):
         Q(sender=request.user, receiver=other_user) | Q(sender=other_user, receiver=request.user)
     )
     messages.update(seen=True)
-    return render(request, 'chat/chatroom.html', {'other_user': other_user, 'messages': messages})
+
+    # For chatpage
+    current_user = request.user
+    receiver_ids_sent = Message.objects.filter(sender=current_user).values_list('receiver', flat=True).distinct()
+    sender_ids_received = Message.objects.filter(receiver=current_user).values_list('sender', flat=True).distinct()
+    combined_user_ids = set(receiver_ids_sent) | set(sender_ids_received)
+    users_info = User.objects.filter(id__in=combined_user_ids).values('id', 'username', 'first_name', 'last_name')
+
+    return render(request, 'chat/chatroom.html',
+                  {'other_user': other_user, 'messages': messages, 'users_info': users_info, 'user': current_user})
 
 
 @login_required
