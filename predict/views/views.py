@@ -19,12 +19,12 @@ __model = None
 def columns():
     global __data_columns
     global __locations
-    with open("/home/bijoy-404/Django/myhome/myhome/predict/saved_model/columns.json", "r") as f:
+    with open("columns.json", "r") as f:
         __data_columns = json.load(f)['data_columns']
         __locations = __data_columns[3:]
     global __model
     if __model is None:
-        with open('/home/bijoy-404/Django/myhome/myhome/predict/saved_model/model.pickle', 'rb') as f:
+        with open('model.pickle', 'rb') as f:
             __model = pickle.load(f)
 
 
