@@ -1,36 +1,29 @@
 {% extends 'base.html' %}
 {% block title %} Browse Posts! {% endblock %}
+
 {% block content %}
     <style>
+        @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400;500;600&display=swap");
+
+        * {
+            font-family: "Raleway", sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            outline: none;
+            border: none;
+        }
+
         body {
-            background-color: #080710;
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
+            max-height: fit-content;
+            background-color: #12141D;
             background-attachment: fixed;
+            background-position: center;
+            overflow-x: hidden;
         }
-        .card-deck {
-            display: flex;
-            flex-direction: column;
-        }
-        .card {
-            width: 50%;
-            height: 20%;
-            margin: 10px;
-        }
-        .card-body {
-            padding: 5px;
-            background-color: #c4c4c4;
-            height: 100%;
-        }
-        .card-title {
-            margin-bottom: .75rem;
-        }
-        .card-text:last-child {
-            margin-bottom: 0;
-        }
+
         .top-button {
-            position: fixed;
             top: 10%;
             left: 8%;
             z-index: 1;
@@ -43,7 +36,6 @@
         }
 
         .filter-button {
-            position: fixed;
             top: 10%;
             left: 30%;
             z-index: 1;
@@ -54,70 +46,97 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
+        .dropdownn-menu {
+            display: none;
+            position: absolute;
+            {% comment %} left: 72.50%; {% endcomment %}
+            top: 30%;
+            z-index: 2;
+            width:300px;
+            height300px
+            background-color: #1E2029;
+            border-radius: 5px;
+            padding: 20px;
+        }
+
+        .show {
+            display: block;
+        }
     </style>
 
-    <button class="top-button" onclick="redirectToContent()">Add new Post</button>
-    <button class="filter-button" id="categoryFilterButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Filter by Category <i class="fas fa-filter"></i>
-    </button>
-    <div class="dropdown-menu" aria-labelledby="categoryFilterButton">
-            <form method="get" action="{% url 'posts:filter'%}">
-                {% csrf_token %}
-{#                {% for choice in category_choices %}#}
-{#                    <div class="form-check">#}
-{#                        <input class="form-check-input" type="checkbox" id="{{ choice.0 }}" name="categories" value="{{ choice.0 }}">#}
-{#                        <label class="form-check-label" for="{{ choice.0 }}">#}
-{#                            {{ choice.1 }}#}
-{#                        </label>#}
-{#                    </div>#}
-{#                {% endfor %}#}
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="1" name="categories" value="1" {% if '1' in selected_categories %}checked{% endif %}>
-                        <label class="form-check-label" for="1">
-                            Sell
-                        </label>
-                    <p></p>
-                    <input class="form-check-input" type="checkbox" id="2" name="categories" value="2" {% if '2' in selected_categories %}checked{% endif %}>
-                        <label class="form-check-label" for="2">
-                            Buy
-                        </label>
-                    <p></p>
-                    <input class="form-check-input" type="checkbox" id="3" name="categories" value="3" {% if '3' in selected_categories %}checked{% endif %}>
-                        <label class="form-check-label" for="3">
-                            Information
-                        </label>
-                </div>
-                <button type="submit" class="btn btn-info">Apply Filter</button>
-{#                button for clear filter#}
-                <button type="button" class="btn btn-danger"><a href = "{% url 'posts:browse' %}" style="color: white">Clear Filter</a></button>
-            </form>
-        </div>
-    <div class="container my-md-5">
-{#        <button class="btn btn-secondary dropdown-toggle" type="button" id="categoryFilterButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 5%; position: fixed; margin-left: 67%">#}
-{#            Filter by Category#}
-{#        </button>#}
+    <div class="mx-auto max-w-7xl flex justify-between my-16">
+        <button class="top-button" onclick="redirectToContent()">Add new Post</button>
+        <button class="filter-button" id="categoryFilterButton" onclick="toggleDropdown()">
+            Filter by Category <i class="fas fa-filter"></i>
+        </button>
+    </div>
 
-        <br>
-        <h2 style="color: white; margin-top: 10%">All Posts</h2><br>
-        <div class="card-deck">
+    <!-- Dropdown for category filter -->
+    <div id="filterDropdown" class="dropdownn-menu lg:left-[72.50%] md:left-[50%] sm:left-[45%] flex flex-end rounded bg-[#1E2029]">
+        <form method="get" action="{% url 'posts:filter' %}">
+            {% csrf_token %}
+
+            <!-- Category checkboxes -->
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="1" name="categories" value="1" {% if '1' in selected_categories %}checked{% endif %}>
+                <label class="form-check-label text-white" for="1">Sell</label>
+                <p></p>
+                <input class="form-check-input" type="checkbox" id="2" name="categories" value="2" {% if '2' in selected_categories %}checked{% endif %}>
+                <label class="form-check-label text-white" for="2">Buy</label>
+                <p></p>
+                <input class="form-check-input" type="checkbox" id="3" name="categories" value="3" {% if '3' in selected_categories %}checked{% endif %}>
+                <label class="form-check-label text-white" for="3">Information</label>
+            </div>
+
+            <div class="flex justify-between max-w-2xl my-6">
+                <button type="submit" class="text-white bg-green-600 px-3 py-2 text-16px rounded">Apply Filter</button>
+                <button type="button" class="text-white bg-red-600 px-3 py-2 text-16px rounded">
+                    <a href="{% url 'posts:browse' %}" style="color: white">Clear Filter</a>
+                </button>
+            </div>
+        </form>
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    
+    <div class="mx-auto max-w-7xl my-20 sm:mt-26">
+        <h2 class="text-white font-600 text-[24px]">All Posts</h2><br>
+        <div class="grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-12 lg:gap-20 md:gap-18 sm:gap-6 bg-[#1E2029] rounded-2xl py-20 px-14 ">
             {% for post in object_list %}
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title"><a href="{% url 'posts:content' post.pk %}">{{ post.title }}</a></h5>
-                    <p class="card-text">Date: {{ post.published }}</p>
-                    <p class="card-text">Author: {{ post.author.first_name }} {{ post.author.last_name }}</p>
-                    <p class="card-text">Description: {{ post.description|slice:"50"|safe }}...</p>
+            <div class="bg-[#12141D]">
+                <div class="p-6 rounded-lg">
+                    <div>
+                        {% if post.image %}
+                        <img src="{{ post.image.url }}" alt="Image for {{ post.title }}" class="w-[250px] h-[150px] object-cover"/>
+                        {% else %}
+                        <img src="" alt="No image available" class="w-[150px] h-[100px] object-cover"/>
+                        {% endif %}
+                    </div>
+                    <h5 class="text-20px text-white mt-2"><a href="{% url 'posts:content' post.pk %}">{{ post.title }}</a></h5>
+                    <p class="text-16px font-400 text-gray-400 mt-2">Date: {{ post.published }}</p>
+                    <p class="text-18px font-600 text-gray-500 mt-2">Author: {{ post.author.first_name }} {{ post.author.last_name }}</p>
+                    <p class="text-14px font-400 text-gray-500 my-2">Description: <small>{{ post.description|slice:"50"|safe }}</small></p>
                     {% if user.id == post.author.id %}
-                        <button type="button" class="btn btn-info"><a href = "{% url 'posts:update_post' post.pk %}" style="color: white">Edit</a></button>
-                        <button type="button" class="btn btn-danger"><a href = "{% url 'posts:delete_post' post.pk %}" style="color: white">Delete</a></button>
-
+                    <div class="flex justify-between">
+                        <button type="button" class="text-white bg-blue-500 px-4 py-2 text-18px rounded"><a href="{% url 'posts:update_post' post.pk %}">Edit</a></button>
+                        <button type="button" class="text-white bg-red-500 px-4 py-2 text-18px rounded"><a href="{% url 'posts:delete_post' post.pk %}">Delete</a></button>
+                    </div>
                     {% endif %}
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
+
+    <!-- JavaScript to toggle the dropdown menu -->
     <script>
+        function toggleDropdown() {
+            var dropdown = document.getElementById('filterDropdown');
+            dropdown.classList.toggle('show');
+        }
+
         function redirectToContent() {
             window.location.href = '{% url 'posts:new_post' %}';
         }

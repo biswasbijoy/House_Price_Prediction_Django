@@ -2,25 +2,36 @@
 {% block title %} Create your new post. {% endblock %}
 {% block content %}
     <style>
-        body {
-                background-color: #080710;
-                background-repeat: no-repeat;
-                background-size: cover;
-                background-position: center;
-                background-attachment: fixed;
-                color: #ffffff;
+            @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400;500;600&display=swap");
+
+            * {
+              font-family: "Raleway", sans-serif;
+              margin: 0;
+              padding: 0;
+              box-sizing: border-box;
+              text-decoration: none;
+              outline: none;
+              border: none;
+            }
+            
+            body {
+              max-height: fit-content;
+              background-color: #12141D;
+              background-attachment: fixed;
+              background-position: center;
+              overflow-x: hidden;
             }
     </style>
 
 
-    <div class = 'container'>
-        <h1> Create your new post. </h1>
+    <div class ="mx-auto  max-w-7xl p-6 rounded bg-[#1E2029] my-10">
+        <h1 class="text-[#fff] text-[20px] mb-2"> Create your new post. </h1>
 
-        <form method="POST" enctype="multipart/form-data">
+        <form class="text-[black] bg-[#f3f3f3] gap-4 p-6 rounded" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.media}}
             {{ form.as_p }}
-            <button class="btn btn-secondary">Create Post</button>
+            <button class="mt-3 text-[#fff] bg-[#007BFF] px-4 py-2 text-[18px] font-600 rounded">Create Post</button>
         </form>
     </div>
     <script>

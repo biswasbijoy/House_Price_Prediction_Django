@@ -2,35 +2,56 @@
 {% block title %} Browse Posts! {% endblock %}
 {% block content %}
      <style>
+        @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400;500;600&display=swap");
+
+        * {
+          font-family: "Raleway", sans-serif;
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          text-decoration: none;
+          outline: none;
+          border: none;
+        }
+        
         body {
-            background-color: #080710;
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: #ffffff;
+          max-height: fit-content;
+          background-color: #12141D;
+          background-attachment: fixed;
+          background-position: center;
+          overflow-x: hidden;
+        }
+        
+        .header {
+           {% comment %} position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 1000;  {% endcomment %}
+          background: #12141D;
+          padding: 12px 6.5%;
         }
     </style>
-    <div class = 'container m-auto'>
+    <div class ="mx-auto max-w-7xl mt-12">
 
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 5%">
+        <div class="">
             <div>
-                <h1>{{ post.title }}</h1>
-                <small>{{ post.author.first_name }} {{ post.author.last_name }}</small>
+                <h1 class="text-[20px] font-600 text-white">{{ post.title }}</h1>
+                <small class="text-[14px] font-400 text-gray-400">{{ post.author.first_name }} {{ post.author.last_name }}</small>
                 {% if post.author.id == user.id %}
-                <h5></h5>
+                <h5 class="h-[2px] bg-[white] mt-2"></h5>
                 {% else %}
-                <h5><a href="{% url 'chats:chatroom' post.author.id %}">Chat with author!</a> </h5>
+                <h5 class="text-[16px] font-400 text-gray-400"><a class="text-[14px] font-400 text-gray-400" href="{% url 'chats:chatroom' post.author.id %}">Chat with author!</a> </h5>
                 {% endif %}
                 <br>
-                <small>Date: {{ post.published }}</small>
+                <small class="text-[14px] font-400 text-gray-400">Date: {{ post.published }}</small>
             </div>
             {% if user.id == post.author.id %}
-                <div>
-                    <button type="button" class="btn btn-info" style="margin-left: -150%"><a href="{% url 'posts:update_post' post.pk %}" style="color: white">Edit</a></button>
+                <div class="mt-4">
+                    <button type="button" class="text-white bg-blue-500 px-4 py-2 text-18px rounded" ><a href="{% url 'posts:update_post' post.pk %}" style="color: white">Edit</a></button>
                     &nbsp;
 
-                    <button type="button" class="btn btn-danger"><a href="{% url 'posts:delete_post' post.pk %}" style="color: white">Delete</a></button>
+                    <button type="button" class="text-white bg-red-500 px-4 py-2 text-18px rounded"><a href="{% url 'posts:delete_post' post.pk %}" style="color: white">Delete</a></button>
                 </div>
             {% endif %}
         </div>
@@ -42,25 +63,25 @@
         {% if post.image %}
             <img src="{{ post.image.url }}" alt="invalid" width="640" height="416">
         {% endif %}
-        <hr style="background-color: white">
+        <hr class="h-[2px] bg-[white] mt-4">
     </div>
 
-    <div class = 'container m-auto'>
-        <h4>Comments</h4>
-        <hr style="background-color: white; width: 11%; margin-left: 0">
+    <div class = 'mx-auto max-w-7xl mt-4'>
+        <h4 class="text-white text-[20px] font-600">Comments</h4>
+        <hr class="h-[2px] bg-[white] mt-4">
         {% if not post.comments.all %}
-            No Comments Yet... <a href="{% url 'posts:comment' post.pk %}">Add One</a>
+          <p class="text-[16px] font-400 text-gray-400">No Comments Yet...<a class="text-[16px] font-400 text-gray-400" href="{% url 'posts:comment' post.pk %}">Add One</a></p>
         {% else %}
-            <a href="{% url 'posts:comment' post.pk %}">Add Comment</a>
+            <a href="{% url 'posts:comment' post.pk %}" class="text-[16px] font-400 text-gray-400 mt-4">Add Comment</a>
             <br/><br/>
             {% for comment in post.comments.all %}
                 {% if user.id == comment.owner.id%}
-                    <strong>{{ comment.owner.first_name }} {{ comment.owner.last_name }} - {{ comment.date_added }}</strong><a href="{% url 'posts:deleteComment' post.pk %}" style="color: blue">Delete</a>
+                    <strong class="text-[16px] font-400 text-gray-400 mr-2">{{ comment.owner.first_name }} {{ comment.owner.last_name }} - {{ comment.date_added }}</strong><a href="{% url 'posts:deleteComment' post.pk %}"  class="text-white bg-red-500 px-4 py-2 text-18px rounded">Delete</a>
                 {% else %}
-                    <strong>{{ comment.owner.first_name }} {{ comment.owner.last_name }} - {{ comment.date_added }}</strong>
+                    <strong class="text-[16px] font-400 text-gray-400 mr-2">{{ comment.owner.first_name }} {{ comment.owner.last_name }} - {{ comment.date_added }}</strong>
                 {% endif %}
                 <br/>
-                {{ comment.comment }}
+                 <small class="text-[16px] font-400 text-gray-400 mr-2">{{ comment.comment }}</small>
                 <br/><br/>
             {% endfor %}
 

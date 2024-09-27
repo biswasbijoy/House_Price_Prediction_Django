@@ -2,104 +2,60 @@
 {% block title %} Prediction {% endblock %}
 {% block content %}
     <style>
-        body {
-            background-color: #080710;
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
+        @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400;500;600&display=swap");
 
-        .container {
-            width: 80%;
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            box-sizing: border-box;
-        }
+* {
+  font-family: "Raleway", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  outline: none;
+  border: none;
+}
 
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        select {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #2b2b2b;
-            color: white;
-        }
-
-        .location-dropdown {
-            position: relative;
-        }
-
-        .location-dropdown select {
-            appearance: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            width: 100%;
-        }
-
-        .location-dropdown::after {
-            content: '\25BC';
-            position: absolute;
-            top: 40%;
-            right: 10px;
-            color: white;
-        }
-
-        button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
+body {
+  max-height: fit-content;
+  background-color: #12141D;
+  background-attachment: fixed;
+  background-position: center;
+  overflow-x: hidden;
+}
     </style>
-    <div class="container my-5">
-        <h2 style="color: aqua;">Calculate the price of a House according to requirements!</h2>
-        <form action="predict">
+
+    <div class="mx-auto  max-w-3xl my-16 py-14  px-2 sm:px-6 lg:px-8 my-20 p-6 bg-[#1E2029] rounded-lg shadow-lg">
+        <h2 class="text-aqua text-2xl font-semibold mb-4 text-[#fff]">Calculate the price of a House according to requirements!</h2>
+        <form action="predict" class="space-y-4">
             {% csrf_token %}
             <div class="form-group">
-                <label for="area">Area (Square Feet)</label>
-                <input type="number" id="area" required name="area">
+                <label for="area" class="text-white text-lg">Area (Square Feet)</label>
+                <input type="number" id="area" required name="area" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300">
             </div>
             <div class="form-group">
-                <label for="bedroom">Bedroom</label>
-                <input type="text" id="bedroom" required name="bedroom">
+                <label for="bedroom" class="text-white text-lg">Bedroom</label>
+                <input type="text" id="bedroom" required name="bedroom" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300">
             </div>
             <div class="form-group">
-                <label for="bathroom">Bathroom</label>
-                <input type="text" id="bathroom" required name="bathroom">
+                <label for="bathroom" class="text-white text-lg">Bathroom</label>
+                <input type="text" id="bathroom" required name="bathroom" class="mt-1 w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300">
             </div>
             <div class="form-group">
-                <label for="location">Location</label>
-                <div class="location-dropdown">
-                    <select id="location" required name="location">
-                    <option value="" disabled selected>Select a location</option>
+                <label for="location" class="text-white text-lg">Location</label>
+                <div class="location-dropdown mt-1">
+                    <select id="location" required name="location" class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300">
+                        <option value="" disabled selected>Select a location</option>
                     </select>
                 </div>
             </div>
-            <div class="col" style="margin-left: -2%">
-                <button type="submit" class="btn btn-success">Predict</button>
+            <div class="flex justify-end">
+                <button type="submit" class="px-5 py-2 bg-green-500 text-white rounded-md shadow hover:bg-green-600 transition-colors">Predict</button>
             </div>
         </form>
-        <div class="">
-            <h2>Estimated Price for {{ area }}: {{ ans }} Lac Rupees</h2>
+        <div class="mt-6 text-white">
+            <h2 class="text-xl">Estimated Price for {{ area }}: {{ ans }} Lac Rupees</h2>
         </div>
     </div>
+    
 
 
     <script>

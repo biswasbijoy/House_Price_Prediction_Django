@@ -11,7 +11,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     description = RichTextField(blank=True, null=True)
     published = models.DateTimeField(default=timezone.now)
-    category = models.ManyToManyField(PostCategory, related_name='categories', blank=True, null=True)
+    category = models.ManyToManyField(PostCategory, related_name='categories')
     image = models.ImageField(upload_to='images/', blank=True, null=True)
 
     def __str__(self):

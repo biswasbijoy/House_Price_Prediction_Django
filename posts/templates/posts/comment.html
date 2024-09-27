@@ -2,27 +2,55 @@
 {% block title %} Add a Comment {% endblock %}
 {% block content %}
     <style>
+        @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400;500;600&display=swap");
+
+        * {
+          font-family: "Raleway", sans-serif;
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+          text-decoration: none;
+          outline: none;
+          border: none;
+        }
+        
         body {
-                background-color: #080710;
-                background-repeat: no-repeat;
-                background-size: cover;
-                background-position: center;
-                background-attachment: fixed;
-                color: #ffffff;
-            }
+          max-height: fit-content;
+          background-color: #12141D;
+          background-attachment: fixed;
+          background-position: center;
+          overflow-x: hidden;
+        }
+        
+        .header {
+           {% comment %} position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 1000;  {% endcomment %}
+          background: #12141D;
+          padding: 12px 6.5%;
+        }
     </style>
 
 
-    <div class = 'container'>
-        <h1>Add Comment...</h1>
-    <br/><br/>
+    <div class="mx-auto max-w-7xl mt-12 p-8 bg-[#1E2029] rounded-lg shadow-lg">
+        <h1 class="text-white text-[24px] font-bold mb-6">Add Comment...</h1>
 
-    <div class="form-group">
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button class="btn btn-success">Comment</button>
-        </form>
+        <div class="text-[#007BFF] font-400 text-[20px]">
+            <form method="POST" class="space-y-6">
+                {% csrf_token %}
+                
+                <div class="form-group space-y-4">
+                    {{ form.as_p }}
+                </div>
+                <div class="flex justify-start">
+                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300">
+                        Comment
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-    </div>
+    
 {% endblock %}

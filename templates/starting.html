@@ -1,42 +1,56 @@
-{% extends 'base.html' %}
-{% block title %} Welcome {% endblock %}
+{% extends 'base.html' %} {% block title %} House Prediction {% endblock %} 
 {% block content %}
-    <style>
-        body {
-            background-color: #080710;
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-        }
-        p {
-            font-size: 25px;
-            font-family: "Times New Roman", Times, serif;
-            color: #ffffff;
-            text-align: center;
-            margin-top: 200px;
-            margin-left: 200px;
-            margin-right: 200px;
-        }
-        input[type=submit] {
-            background-color: #238d0c;
-            border: none;
-            border-radius: 50px;
-            color: white;
-            padding: 16px 32px;
-            text-decoration: none;
-            margin-left: 45%;
-            cursor: pointer;
-            font-size: 20px;
-            font-family: "Times New Roman", Times, serif;
-        }
-    </style>
-    <div class="container my-5">
-        <p>We deliver the best real estate deals with perfect timing – it is very difficult when it's time for getting a new house with the perfect price and features. But worry not! It's so simple to find the best real estate deals in your area with our service. Here you can also sell or rent your house, apartment, or room. You can post your ad for free and get the best price for your property. You are also able to buy or rent a house or apartment. This website has a nationwide database of residences, which is updated every day. So what are you waiting for? Find the perfect location and the price predicted right now!
-        </p>
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Raleway:wght@100;300;400;500;600&display=swap");
 
-        <form action="browse">
-            <input type="submit" value="Get Started!">
-        </form>
-    </div>
+* {
+  font-family: "Raleway", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  outline: none;
+  border: none;
+}
+
+body {
+  max-height: fit-content;
+  background-color: #12141D;
+  background-attachment: fixed;
+  background-position: center;
+  overflow-x: hidden;
+}
+.home-btn {
+  display: flex;
+  flex-direction: row;
+}
+.home-btn .btn-tag {
+  background: #ff664f;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+
+</style>
+<div class="mx-auto max-w-7xl py-14  px-2 sm:px-6 lg:px-8 my-20 flex flex-col justify-center items-center text-start">
+   <div>
+    <p class="text-[#696B76] text-[26px] font-600" >
+      We deliver the best real estate deals with perfect timing – it is very
+      difficult when it's time for getting a new house with the perfect price and
+      features. But worry not! It's so simple to find the best real estate deals
+      in your area with our service. Here you can also sell or rent your house,
+      apartment, or room. You can post your ad for free and get the best price for
+      your property. You are also able to buy or rent a house or apartment. This
+      website has a nationwide database of residences, which is updated every day.
+      So what are you waiting for? Find the perfect location and the price
+      predicted right now!
+    </p>
+   </div>
+
+  <div class="home-btn my-10">
+    <a href="" class="btn-tag py-3 px-4 rounded mr-4 text-[24px]">Explore Now<span class=" ml-1 align-middle"><i
+                class="fa fa-angle-double-right"></i></span></a>
+</div>
+</div>
 {% endblock %}
